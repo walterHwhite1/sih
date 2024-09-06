@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .container { width: 80%; margin: 0 auto; padding: 20px; }
+    h1 { text-align: center; }
+    label, select, button { display: block; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Panel - Update Availability</h1>
+
+    <label for="hospital-select">Select Hospital:</label>
+    <select id="hospital-select"></select>
+
+    <button onclick="updateHospitalAvailability(true)">Set as Available</button>
+    <button onclick="updateHospitalAvailability(false)">Set as Unavailable</button>
+
+    <label for="labtest-select">Select Lab Test:</label>
+    <select id="labtest-select"></select>
+
+    <button onclick="updateLabTestAvailability(true)">Set as Available</button>
+    <button onclick="updateLabTestAvailability(false)">Set as Unavailable</button>
+  </div>
+
+  <script>
+    // Fetch hospitals and lab tests for the dropdown
+    fetch('http://localhost:27017/hospitals')
+      .then(response => response.json())
+      .then(hospitals => {
+        const hospitalSelect = document.getElementById('hospital-select');
+        hospitals.forEach(hospital => {
+          const option = document.createElement('option');
+          option.value = hospital._id;
+          option.textContent = hospital.name;
+          hospitalSelect.appendChild(option);
+        });
+      });
+
+    fetch('http://localhost:27017/labtests')
+      .then(response => response.json())
+      .then(labTests => {
+        const labTestSelect = document.getElementById('labtest-select');
+        labTests.forEach(labTest => {
+          const option = document.createElement('option');
+          option.value = labTest._id;
+          option.textContent = labTest.name;
+          labTestSelect.appendChild(option);
+        });
+      });
+
+    // Update hospital availability
+    function updateHospitalAvailability(isAvailable) {
+      const hospitalId = document.getElementById('hospital-select').value;
+      fetch(`http://localhost:27017/hospitals/${hospitalId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ availability: isAvailable })
+      }).then(response => response.json())
+        .then(data => alert('Hospital availability updated'))
+        .catch(err => console.log('Error updating hospital:', err));
+    }
+
+    // Update lab test availability
+    function updateLabTestAvailability(isAvailable) {
+      const labTestId = document.getElementById('labtest-select').value;
+      fetch(`http://localhost:27017/labtests/${labTestId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ availability: isAvailable })
+      }).then(response => response.json())
+        .then(data => alert('Lab Test availability updated'))
+        .catch(err => console.log('Error updating lab test:', err));
+    }
+  </script>
+</body>
+</html>

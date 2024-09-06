@@ -105,5 +105,22 @@
       hospitalList.appendChild(row);
     });
   </script>
+  <script>
+    // Fetch lab test data from server
+    fetch('http://localhost:27017/hospitals')
+      .then(response => response.json())
+      .then(labTests => {
+        const labTestList = document.getElementById('hospitals-list');
+  
+        labTests.forEach(test => {
+          const availabilityText = test.availability ? "Available" : "Unavailable";
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${test.name}</td><td>${test.category}</td><td>${test.price}</td><td>${availabilityText}</td>`;
+          labTestList.appendChild(row);
+        });
+      })
+      .catch(err => console.log('Error fetching lab tests:', err));
+  </script>
+  
 </body>
 </html>

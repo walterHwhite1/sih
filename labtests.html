@@ -67,7 +67,7 @@
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="hospital.html">Hospital</a></li>
+      <li><a href="hospitals.html">Hospital</a></li>
       <li><a href="labtest.html">Lab Test</a></li>
       <li><a href="#">About Us</a></li>
       <li><a href="#">Contact</a></li>
@@ -107,5 +107,22 @@
       labTestList.appendChild(row);
     });
   </script>
+  <script>
+    // Fetch lab test data from server
+    fetch('http://localhost:27017/labtests')
+      .then(response => response.json())
+      .then(labTests => {
+        const labTestList = document.getElementById('labtest-list');
+  
+        labTests.forEach(test => {
+          const availabilityText = test.availability ? "Available" : "Unavailable";
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${test.name}</td><td>${test.category}</td><td>${test.price}</td><td>${availabilityText}</td>`;
+          labTestList.appendChild(row);
+        });
+      })
+      .catch(err => console.log('Error fetching lab tests:', err));
+  </script>
+  
 </body>
 </html>
