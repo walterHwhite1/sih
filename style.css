@@ -59,10 +59,38 @@ input {
 }
 
 .background-pattern {
-    background: url('background-pattern.jpg') no-repeat right;
+    background: url('assets/background-pattern.jpg') no-repeat right;
     height: 100%;
     width: 150px;
     position: absolute;
     top: 0;
     right: -150px;
 }
+
+/* Shared styles for login and healthcare page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.login-container, .hero-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 20px;
+    background-color: #e0f7fa;
+}
+
+.hero-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Add more styles as needed for the layout, buttons, and other elements */
+
